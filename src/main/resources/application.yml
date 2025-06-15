@@ -1,0 +1,43 @@
+# ==================== 服务基础配置 ====================
+server:
+  servlet:
+    context-path: /api/v1
+
+spring:
+  # ========== MySQL 8.0 数据源配置 ==========
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # ========== JPA 配置 ==========
+  jpa:
+    hibernate:
+      ddl-auto: update   # 建议开发用 update，生产环境用 none 或 validate
+    show-sql: true  # 控制台输出 SQL
+    properties:
+      hibernate:
+        format_sql: true  # SQL 格式化输出（易读）
+        use_sql_comments: true  # 输出注释说明 SQL 来源（Repository 方法）
+    open-in-view: false
+
+  # ========== Redis 配置 ==========
+  data:
+    redis:
+      host: localhost       # Redis 主机地址
+      port: 6379            # Redis 端口
+      password: root        # Redis 密码（如果没有可以留空）
+      database: 0           # Redis 库编号（0~15）
+      timeout: 5000ms       # 连接超时
+
+# ==================== 日志级别配置 ====================
+logging:
+  level:
+    root: info
+    org.springframework.web: debug
+    com.example: debug
+
+jwt:
+  secret: yourStrongSecretKey
+  expiration: 86400000 # 1 天，单位：毫秒
