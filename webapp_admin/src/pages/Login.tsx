@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { login } from '../api/auth'
 
 const Login: React.FC = () => {
     const [isSignup, setIsSignup] = useState(false);
@@ -76,51 +77,61 @@ const Login: React.FC = () => {
         setShowModal(true);
     };
 
-    const handleLogin = () => {
-        // Validation - 账号或密码为空的提示
+    const handleLogin = async () => {
         if (!loginForm.account.trim()) {
             setModalContent({
                 title: '登录失败',
                 message: '请输入账号',
-                type: 'error'
+                type: 'error',
             });
             setShowModal(true);
             return;
         }
 
-        if (!isVeriCodeLogin && !loginForm.password.trim()) {
+        if (!loginForm.password.trim()) {
             setModalContent({
                 title: '登录失败',
                 message: '请输入密码',
-                type: 'error'
+                type: 'error',
             });
             setShowModal(true);
             return;
         }
 
-        if (isVeriCodeLogin && !loginForm.verificationCode.trim()) {
+        try {
+            const response = await login(loginForm.account, loginForm.password);
+
+            // ✅ 检查返回的 code 是否为 200
+            if (response.data.code !== 200) {
+                setModalContent({
+                    title: '登录失败',
+                    message: response.data.message || '登录失败',
+                    type: 'error',
+                });
+                setShowModal(true);
+                return;
+            }
+
+            const token = response.data.data;
+
+            localStorage.setItem('token', token);
+
+            setShowWelcome(true);
+
+            setTimeout(() => {
+                window.location.href = '/home';
+            }, 3000);
+        } catch (error: any) {
             setModalContent({
                 title: '登录失败',
-                message: '请输入验证码',
-                type: 'error'
+                message: error?.response?.data?.message || '登录请求失败',
+                type: 'error',
             });
             setShowModal(true);
-            return;
         }
-
-        // 纯前端登录成功逻辑
-        console.log('Login attempt:', loginForm);
-
-        // 显示欢迎页面
-        setShowWelcome(true);
-
-        // 3秒后跳转到home页面
-        setTimeout(() => {
-            console.log('跳转到home页面');
-            // 使用路由跳转到home页面
-            window.location.href = '/home';
-        }, 3000);
     };
+
+
 
     const handleSignup = () => {
         // Validation
