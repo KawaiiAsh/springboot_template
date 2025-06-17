@@ -1,0 +1,72 @@
+# Node dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Production env vars
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+coverage/
+
+# IDE directories
+.idea/
+.vscode/
+
+# WebStorm specific
+# User-specific settings
+*.iml
+*.iws
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Temporary files
+*.tmp
+
+# Yarn PnP
+.pnp.cjs
+.pnp.loader.mjs
+.pnp.js
+
+# Mac system files
+.Spotlight-V100
+.Trashes
+
+# Logs and lock files
+*.log
+package-lock.json
+
+# Optional npm cache directory
+.npm
+
+# Storybook
+.out/
+
+# React Native
+.expo/
+.expo-shared/
+
+# Misc
+coverage/
+reports/
+
+# End of .gitignore
